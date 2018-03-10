@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../vue-router/dist/vue-router.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<h1>demo1</h1>
+		<div id="app">
+			<p>
+				<router-link to="/user/q">/user/foo</router-link>
+				<router-link to="/user/evan">/user/evan</router-link>
+			</p>
+			<router-view></router-view>
+		</div>
+
+		<script type="text/javascript">
+			//定义组件
+			const User = {
+				template: `<div>User {{ $route.params.username }}</div>`
+			}
+
+			//定义路由
+			const router = new VueRouter({
+				routes: [{
+					path: '/user/:username',
+					component: User
+				}]
+			})
+
+			//挂在到dom上面
+			const app = new Vue({
+				router
+			}).$mount('#app')
+		</script>
+		
+		<h1>demo2:多段『路径参数』</h1>
+		<div id="app2">
+			<p>
+				<router-link to="/user/q">/user/q</router-link>
+				<router-link to="/user/evan/post/123">/user/evan/post/123</router-link>
+			</p>
+			<router-view></router-view>
+		</div>
+		<script type="text/javascript">
+			const User2 = {
+				template:'<div>'+
+							'二级目录: {{$route.params.attr}}'+
+						'</div>',
+				
+			}
+			const lujin4 = {
+				template:`<div>
+							<p>
+								<b>一级目录:{{$route.params.first}}</b>
+								<b>二级目录:{{$route.params.second}}</b>
+								<b>三级目录:{{$route.params.third}}</b>
+								<b>四级目录:{{$route.params.fourth}}</b>
+							</p>
+							
+							<p>
+								<b>合并:</b><u>{{$route.params.first}}/{{$route.params.second}}/{{$route.params.third}}/{{$route.params.fourth}}</u>
+							</p>
+							<p>
+								<i>{{$route.params}}</i>
+							</p>
+							
+						</div>`,
+				watch: {
+				    '$route' (to, from) {
+				      // 对路由变化作出响应...
+				      console.log("四级目录模板：",to,from)
+				    }
+				}
+			}
+			const router2 = new VueRouter({
+				routes:[
+					{
+						path:'/user/:attr',
+						component:User2
+					},
+					{
+						path:'/:first/:second/:third/:fourth',
+						component:lujin4
+					}
+				]
+			})
+			
+			const app2 = new Vue({
+				el:"#app2",
+				router:router2
+			})
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<h1>v-once控制值不可更新改变</h1>
+		<div id="app">
+			<input type="text" name="" id="" value="" v-model="msg"/>
+			<p>可以改变：{{ msg }}</p>
+			
+			<input type="text" name="" id="" value="" v-model="msg1"/>
+			<p v-once>不可以改变：{{ msg1 }}</p>
+		</div>
+		<script type="text/javascript">
+			var user = {
+			    firstname: 'John',
+			    lastname: 'Doe'
+			};
+			var app = new Vue({
+				el: '#app', //element
+				data: {
+					msg: 'Hello Vue!',
+					msg1: 'Hello Vue0000!',
+					fullName:user
+				},
+				 computed: {
+			        fullName: function () {
+			            // 可计算属性中 this 自动绑定为当前 ViewModel
+			            return this.firstname + ' ' + this.lastname
+			        }
+			    }
+			})
+		</script>
+	</body>
+
+</html>
